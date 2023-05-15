@@ -1,0 +1,71 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Java",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+            "vmArgs": "--module-path \"D:\Universidad\Cuarto Semestre 2023-1\Segundo Bloque\Programacion Avanzada\Segundo Corte\openjfx-20.0.1_windows-x64_bin-sdk\javafx-sdk-20.0.1\lib\" --add-modules javafx.controls,javafx.fxml"
+
+        },
+        {
+            "name": "Java Console App",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ],
+            "externalConsole": true
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "SeleccionUsuarioApp",
+            "request": "launch",
+            "mainClass": "Vista.SeleccionUsuarioApp",
+            "projectName": "Gestor-Ventas_b9eabebe"
+        },
+        {
+            "type": "java",
+            "name": "createDB",
+            "request": "launch",
+            "mainClass": "createDB",
+            "projectName": "Gestor-Ventas_b9eabebe"
+        },
+        {
+            "type": "java",
+            "name": "GestorVentas",
+            "request": "launch",
+            "mainClass": "pruebas.GestorVentas",
+            "projectName": "Gestor-Ventas_b9eabebe"
+        },
+        {
+            "type": "java",
+            "name": "NewFXMain",
+            "request": "launch",
+            "mainClass": "pruebas.NewFXMain",
+            "projectName": "Gestor-Ventas_b9eabebe"
+        }
+    ]
+}
