@@ -31,6 +31,7 @@ public class SeleccionVendedor {
         // Crear el texto y centrarlo
         Text texto = new Text("Seleccione el vendedor");
         texto.setFill(Color.WHITE);
+        texto.setStyle("-fx-font-size: 16px;");
 
         // Crear las imágenes de los vendedores
         ImageView imagenVendedor1 = new ImageView(new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/icono_usuario.png"));
@@ -38,7 +39,12 @@ public class SeleccionVendedor {
 
         // Crear los textos para los vendedores
         Text nombreVendedor1 = new Text("Vendedor 1");
+        nombreVendedor1.setFill(Color.WHITE);
+        nombreVendedor1.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        
         Text nombreVendedor2 = new Text("Vendedor 2");
+        nombreVendedor2.setFill(Color.WHITE);
+        nombreVendedor2.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
         // Crear los contenedores para los vendedores
         VBox vendedor1 = new VBox(imagenVendedor1, nombreVendedor1);
@@ -53,7 +59,11 @@ public class SeleccionVendedor {
         // Crear el contenedor principal y añadir los componentes
         VBox contenedorPrincipal = new VBox(10, texto, new HBox(10, vendedor1, vendedor2), aceptar);
         contenedorPrincipal.setAlignment(Pos.CENTER);
-        contenedorPrincipal.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, null)));
+        contenedorPrincipal.setBackground(new Background(new BackgroundFill(Color.web("#87ceeb"), CornerRadii.EMPTY, null)));
+
+        // Crear un StackPane para centrar el contenedorPrincipal
+        StackPane root = new StackPane(contenedorPrincipal);
+        root.setAlignment(Pos.CENTER);
 
         // Eventos de click en las imágenes y textos
         vendedor1.setOnMouseClicked(event -> {
@@ -79,7 +89,7 @@ public class SeleccionVendedor {
             }
         });
 
-        Scene escena = new Scene(contenedorPrincipal, 500, 500);
+        Scene escena = new Scene(root, 500, 500);
         stage.setScene(escena);
     }
 
