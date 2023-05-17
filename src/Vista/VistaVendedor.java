@@ -2,15 +2,13 @@ package Vista;
 
 import Controlador.Controlador;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class VistaVendedor {
 
@@ -24,38 +22,39 @@ public class VistaVendedor {
     }
 
     private void crearVentana() {
-        stage.setTitle("Vista Vendedor");
+        stage.setTitle("Vista del Vendedor");
 
-        // Crear el encabezado con el nombre del vendedor y la empresa
-        Label nombreVendedor = new Label("Nombre Vendedor");
-        nombreVendedor.setFont(new Font("Arial", 20));
-        Label nombreEmpresa = new Label("Nombre Empresa");
-        nombreEmpresa.setFont(new Font("Arial", 20));
-        HBox encabezado = new HBox(10, nombreVendedor, nombreEmpresa);
-        encabezado.setAlignment(Pos.CENTER);
+        // Crear el texto para el nombre de la empresa y el vendedor
+        Text nombreEmpresa = new Text("Gestor Ventas");
+        nombreEmpresa.setFill(Color.WHITE);
+        nombreEmpresa.setStyle("-fx-font-size: 20px;");
 
-        // Crear los botones para las acciones
-        Button realizarCompra = new Button("Realizar Compra");
-        Button mirarVentas = new Button("Mirar Ventas");
-        Button quienHaVendidoMas = new Button("¿Quién ha vendido más?");
-        VBox acciones = new VBox(10, realizarCompra, mirarVentas, quienHaVendidoMas);
-        acciones.setPadding(new Insets(10, 10, 10, 10));
+        Text nombreVendedor = new Text("Vendedor");
+        nombreVendedor.setFill(Color.WHITE);
+        nombreVendedor.setStyle("-fx-font-size: 16px;");
 
-        // Crear el label para la fecha y hora actual
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        Label fechaHora = new Label(dtf.format(now));
-        fechaHora.setFont(new Font("Arial", 14));
+        // Crear los botones para las opciones
+        Button vender = new Button("Vender");
+        vender.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
 
-        // Crear el layout principal
-        BorderPane layoutPrincipal = new BorderPane();
-        layoutPrincipal.setTop(encabezado);
-        layoutPrincipal.setLeft(acciones);
-        layoutPrincipal.setBottom(fechaHora);
-        BorderPane.setAlignment(fechaHora, Pos.BOTTOM_RIGHT);
+        Button ingresarProducto = new Button("Ingresar Producto");
+        ingresarProducto.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
 
-        // Configurar la escena y mostrar la ventana
-        Scene escena = new Scene(layoutPrincipal, 500, 500);
+        Button catalogoProductos = new Button("Catálogo Productos");
+        catalogoProductos.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+
+        Button masVentas = new Button("¿Quién ha hecho más ventas?");
+        masVentas.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+
+        // Crear el contenedor para el menú lateral
+        VBox menuLateral = new VBox(10, nombreEmpresa, nombreVendedor, vender, ingresarProducto, catalogoProductos, masVentas);
+        menuLateral.setPadding(new Insets(10));
+        menuLateral.setStyle("-fx-background-color: #ffa500;");
+
+        // Crear el contenedor principal y añadir los componentes
+        HBox contenedorPrincipal = new HBox(menuLateral);
+
+        Scene escena = new Scene(contenedorPrincipal, 800, 600);
         stage.setScene(escena);
     }
 
