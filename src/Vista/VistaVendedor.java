@@ -13,20 +13,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class VistaVendedor {
+
     private Stage stage;
     private Controlador controlador;
 
-    public VistaVendedor(Controlador controlador, Stage stage) {
+    public VistaVendedor(Controlador controlador) {
         this.controlador = controlador;
-        this.stage = stage; // Usar el Stage principal en lugar de crear uno nuevo
+        this.stage = new Stage();
         this.crearVentana();
     }
 
     private void crearVentana() {
-        stage.setTitle("Vista Vendedor " + controlador.getVendedorSeleccionado());
+        stage.setTitle("Vista Vendedor");
 
         // Crear el encabezado con el nombre del vendedor y la empresa
-        Label nombreVendedor = new Label(controlador.getVendedorSeleccionado());
+        Label nombreVendedor = new Label("Nombre Vendedor");
         nombreVendedor.setFont(new Font("Arial", 20));
         Label nombreEmpresa = new Label("Nombre Empresa");
         nombreEmpresa.setFont(new Font("Arial", 20));
@@ -41,8 +42,8 @@ public class VistaVendedor {
         acciones.setPadding(new Insets(10, 10, 10, 10));
 
         // Crear el label para la fecha y hora actual
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-        LocalDateTime now = LocalDateTime.now();  
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
         Label fechaHora = new Label(dtf.format(now));
         fechaHora.setFont(new Font("Arial", 14));
 
@@ -60,9 +61,5 @@ public class VistaVendedor {
 
     public void mostrar() {
         stage.show();
-    }
-
-    public void ocultar() {
-        stage.hide();
     }
 }

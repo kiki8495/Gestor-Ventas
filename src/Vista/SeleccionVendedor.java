@@ -17,11 +17,11 @@ public class SeleccionVendedor {
 
     private Stage stage;
     private Controlador controlador;
-    private String vendedorSeleccionado = null;
+    private String vendedorSeleccionado = null; // Variable para llevar registro del vendedor seleccionado
 
-    public SeleccionVendedor(Controlador controlador, Stage stage) {
+    public SeleccionVendedor(Controlador controlador) {
         this.controlador = controlador;
-        this.stage = stage; // Usar el Stage principal en lugar de crear uno nuevo
+        this.stage = new Stage();
         this.crearVentana();
     }
 
@@ -38,10 +38,8 @@ public class SeleccionVendedor {
 
         // Crear los textos para los vendedores
         Text nombreVendedor1 = new Text("Vendedor 1");
-        nombreVendedor1.setFill(Color.WHITE);
         Text nombreVendedor2 = new Text("Vendedor 2");
-        nombreVendedor2.setFill(Color.WHITE);
-                
+
         // Crear los contenedores para los vendedores
         VBox vendedor1 = new VBox(imagenVendedor1, nombreVendedor1);
         VBox vendedor2 = new VBox(imagenVendedor2, nombreVendedor2);
@@ -61,29 +59,25 @@ public class SeleccionVendedor {
         vendedor1.setOnMouseClicked(event -> {
             texto.setText("Ha seleccionado al vendedor 1");
             vendedorSeleccionado = "Vendedor 1"; // Aquí actualizamos la variable con el vendedor seleccionado
-            controlador.setVendedorSeleccionado("Vendedor 1");
         });
 
         vendedor2.setOnMouseClicked(event -> {
             texto.setText("Ha seleccionado al vendedor 2");
             vendedorSeleccionado = "Vendedor 2"; // Aquí actualizamos la variable con el vendedor seleccionado
-            controlador.setVendedorSeleccionado("Vendedor 2");
         });
 
-    aceptar.setOnAction(event -> {
-    if (vendedorSeleccionado != null) {
-        controlador.setVendedorSeleccionado(vendedorSeleccionado);
-        controlador.cambiarAVistaVendedor();
-        stage.hide();
-    } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText("Por favor seleccione un vendedor antes de continuar.");
-        alert.showAndWait();
-    }
-    });
-
+        aceptar.setOnAction(event -> {
+            if (vendedorSeleccionado != null) {
+                controlador.cambiarAVistaVendedor();
+                stage.hide(); // Cerrar la ventana actual
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Por favor seleccione un vendedor antes de continuar.");
+                alert.showAndWait();
+            }
+        });
 
         Scene escena = new Scene(contenedorPrincipal, 500, 500);
         stage.setScene(escena);
@@ -91,9 +85,5 @@ public class SeleccionVendedor {
 
     public void mostrar() {
         stage.show();
-    }
-
-    public void ocultar() {
-    stage.hide();
     }
 }
