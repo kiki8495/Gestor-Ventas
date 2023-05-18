@@ -1,30 +1,68 @@
 package Vista;
 
 import Controlador.Controlador;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 
 public class VistaVendedor {
 
-    private Stage stage;
+    private final Stage stage;
     private Controlador controlador;
 
     public VistaVendedor(Controlador controlador) {
-        this.controlador = controlador;
+        this.controlador = controlador; // Asignar el objeto Controlador al atributo controlador
         this.stage = new Stage();
         this.crearVentana();
     }
 
-    private void crearVentana() {
-        stage.setTitle("Vista del Vendedor");
+    public static class Producto {
 
-        // Crear el texto para el nombre de la empresa y el vendedor
+        private final int id;
+        private final String nombre;
+        private final int cantidad;
+        private final double precio;
+
+        public Producto(int id, String nombre, int cantidad, double precio) {
+            this.id = id;
+            this.nombre = nombre;
+            this.cantidad = cantidad;
+            this.precio = precio;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public double getPrecio() {
+            return precio;
+        }
+    }
+
+    private void crearVentana() {
+        stage.setTitle("Gestor de Ventas - Empresa XYZ");
+
         Text nombreEmpresa = new Text("Gestor Ventas");
         nombreEmpresa.setFill(Color.WHITE);
         nombreEmpresa.setStyle("-fx-font-size: 20px;");
@@ -33,32 +71,77 @@ public class VistaVendedor {
         nombreVendedor.setFill(Color.WHITE);
         nombreVendedor.setStyle("-fx-font-size: 16px;");
 
-        // Crear los botones para las opciones
-        Button vender = new Button("Vender");
-        vender.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        Text fechaHora = new Text("Buenos días, la fecha es " + dtf.format(now));
 
-        Button ingresarProducto = new Button("Ingresar Producto");
-        ingresarProducto.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+        Text catalogoProductosText = new Text("El catálogo de Productos disponible es el siguiente:");
 
-        Button catalogoProductos = new Button("Catálogo Productos");
-        catalogoProductos.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+        TableView<Producto> tabla = new TableView<>();
+        ObservableList<Producto> data = FXCollections.observableArrayList(
+                new Producto(1, "Producto 1", 10, 50000),
+                new Producto(2, "Producto 2", 20, 60000),
+                new Producto(3, "Producto 3", 30, 40000)
+        );
+        tabla.setItems(data);
 
-        Button masVentas = new Button("¿Quién ha hecho más ventas?");
-        masVentas.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF;");
+        TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idColumn.setPrefWidth(50); // Establecer el ancho preferido de la columna
 
-        // Crear el contenedor para el menú lateral
-        VBox menuLateral = new VBox(10, nombreEmpresa, nombreVendedor, vender, ingresarProducto, catalogoProductos, masVentas);
-        menuLateral.setPadding(new Insets(10));
-        menuLateral.setStyle("-fx-background-color: #ffa500;");
+        TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        nombreColumn.setPrefWidth(200); // Establecer el ancho preferido de la columna
 
-        // Crear el contenedor principal y añadir los componentes
-        HBox contenedorPrincipal = new HBox(menuLateral);
+        TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad Disponible");
+        cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        cantidadColumn.setPrefWidth(150); // Establecer el ancho preferido de la columna
 
-        Scene escena = new Scene(contenedorPrincipal, 800, 600);
+        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio Unitario");
+        precioColumn.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        precioColumn.setPrefWidth(150); // Establecer el ancho preferido de la columna
+
+        tabla.getColumns().addAll(idColumn, nombreColumn, cantidadColumn, precioColumn);
+
+        VBox contenedorPrincipal = new VBox(10, fechaHora, catalogoProductosText, tabla);
+        contenedorPrincipal.setPadding(new Insets(10));
+        contenedorPrincipal.setStyle("-fx-border-color: #ffa500; -fx-border-width: 2px;");
+        contenedorPrincipal.setAlignment(Pos.TOP_LEFT);
+
+        // Crear los botones del menú lateral
+        Button boton1 = new Button("Añadir Producto");
+        boton1.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+        Button boton2 = new Button("Vender");
+        boton2.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+        Button boton3 = new Button("Recibos");
+        boton3.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+        Button boton4 = new Button("Quien ha vendido más");
+        boton4.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+
+        VBox menuLateral = new VBox(10, nombreEmpresa, nombreVendedor, boton1, boton2, boton3, boton4);
+        menuLateral.setPadding(new Insets(20));
+        menuLateral.setStyle("-fx-background-color: #ffa500");
+        menuLateral.setAlignment(Pos.TOP_LEFT);
+
+        // Crear el contenedor total y añadir los componentes
+        HBox contenedorTotal = new HBox(menuLateral, contenedorPrincipal);
+        contenedorTotal.setAlignment(Pos.TOP_LEFT);
+
+        // Agregar los eventos a los botones
+        boton1.setOnAction(event -> controlador.abrirVentanaAñadirProducto());
+        boton2.setOnAction(event -> controlador.abrirVentanaVender());
+        boton3.setOnAction(event -> controlador.abrirVentanaRecibos());
+        boton4.setOnAction(event -> controlador.abrirVentanaVendidoMas());
+
+        Scene escena = new Scene(contenedorTotal, 800, 600);
         stage.setScene(escena);
     }
 
     public void mostrar() {
-        stage.show();
+        this.stage.show();
+    }
+
+    public void ocultar() {
+        this.stage.hide();
     }
 }
