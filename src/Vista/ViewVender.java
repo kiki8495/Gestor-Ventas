@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class ViewVender {
 
-    private Stage stage;
+    private final Stage stage;
 
     public ViewVender() {
         this.stage = new Stage();

@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 
 public class SeleccionVendedor {
 
-    private Stage stage;
-    private Controlador controlador;
+    private final Stage stage;
+    private final Controlador controlador;
     private String vendedorSeleccionado = null; // Variable para llevar registro del vendedor seleccionado
 
     public SeleccionVendedor(Controlador controlador) {
