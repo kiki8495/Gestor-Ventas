@@ -21,13 +21,17 @@ import javafx.scene.control.Button;
 public class VistaVendedor {
 
     private final Stage stage;
-    private Controlador controlador;
+    private final Controlador controlador;
+    private final String nombreVendedor;
 
-    public VistaVendedor(Controlador controlador) {
-        this.controlador = controlador; // Asignar el objeto Controlador al atributo controlador
+    public VistaVendedor(Controlador controlador, String nombreVendedor) {
+        this.controlador = controlador;
+        this.nombreVendedor = nombreVendedor;
         this.stage = new Stage();
         this.crearVentana();
     }
+
+   
 
     public static class Producto {
 
@@ -61,13 +65,14 @@ public class VistaVendedor {
     }
 
     private void crearVentana() {
+
         stage.setTitle("Gestor de Ventas - Empresa XYZ");
 
         Text nombreEmpresa = new Text("Gestor Ventas");
         nombreEmpresa.setFill(Color.WHITE);
         nombreEmpresa.setStyle("-fx-font-size: 20px;");
 
-        Text nombreVendedor = new Text("Vendedor");
+        Text nombreVendedor = new Text("Vendedor: " + this.nombreVendedor);
         nombreVendedor.setFill(Color.WHITE);
         nombreVendedor.setStyle("-fx-font-size: 16px;");
 

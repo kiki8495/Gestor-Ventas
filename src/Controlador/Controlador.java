@@ -1,23 +1,26 @@
 package Controlador;
 
-import Vista.SeleccionVendedor;
-import Vista.ViewAñadirProducto;
-import Vista.ViewRecibos;
-import Vista.ViewVender;
-import Vista.ViewVendidoMas;
+import Vista.*;
 import javafx.stage.Stage;
-import Vista.VistaVendedor;
 
 public class Controlador {
 
-    private Stage primaryStage;
-    private SeleccionVendedor seleccionVendedor;
+    private final Stage primaryStage;
+    private final SeleccionVendedor seleccionVendedor;
     private VistaVendedor vistaVendedor;
+    private String vendedorSeleccionado;
 
     public Controlador(Stage primaryStage) {
         this.primaryStage = primaryStage;
         seleccionVendedor = new SeleccionVendedor(this);
-        vistaVendedor = new VistaVendedor(this);
+    }
+
+    public String getVendedorSeleccionado() {
+        return this.vendedorSeleccionado;
+    }
+
+    public void setVendedorSeleccionado(String vendedor) {
+        this.vendedorSeleccionado = vendedor;
     }
 
     public void iniciarAplicacion() {
@@ -25,6 +28,8 @@ public class Controlador {
     }
 
     public void cambiarAVistaVendedor() {
+        setVendedorSeleccionado(seleccionVendedor.getVendedorSeleccionado());
+        vistaVendedor = new VistaVendedor(this, getVendedorSeleccionado());
         vistaVendedor.mostrar();
     }
 
