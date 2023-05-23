@@ -28,7 +28,10 @@ public class SeleccionVendedor {
     }
 
     private void crearVentana() {
-        stage.setTitle("Selección del Vendedor");
+        //Crear el titulo
+        Text titulo = new Text("Empresa XYZ");
+        titulo.setFill(Color.WHITE);
+        titulo.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
         // Crear el texto y centrarlo
         Text texto = new Text("Seleccione el vendedor");
@@ -36,17 +39,17 @@ public class SeleccionVendedor {
         texto.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
         // Crear las imágenes de los vendedores
-        Image image1 = new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/icono_usuario.png", 100, 100, false, false);
+        Image image1 = new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/Vendedor%201.png", 100, 100, false, false);
         ImageView imagenVendedor1 = new ImageView(image1);
-        Image image2 = new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/icono_usuario.png", 100, 100, false, false);
+        Image image2 = new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/Vendedor%202.png", 100, 100, false, false);
         ImageView imagenVendedor2 = new ImageView(image2);
 
         // Crear los textos para los vendedores
-        Text nombreVendedor1 = new Text("Vendedor 1");
+        Text nombreVendedor1 = new Text("Cristhian");
         nombreVendedor1.setFill(Color.WHITE);
         nombreVendedor1.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
-        Text nombreVendedor2 = new Text("Vendedor 2");
+        Text nombreVendedor2 = new Text("Edgar");
         nombreVendedor2.setFill(Color.WHITE);
         nombreVendedor2.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
@@ -75,13 +78,13 @@ public class SeleccionVendedor {
 
 // Eventos de click en las imágenes y textos
         vendedor1.setOnMouseClicked(event -> {
-            texto.setText("Ha seleccionado al vendedor 1");
-            vendedorSeleccionado = "Vendedor 1"; // Aquí actualizamos la variable con el vendedor seleccionado
+            texto.setText("Bienvenido Cristhian, dale click en Aceptar");
+            vendedorSeleccionado = "Cristhian"; // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
         vendedor2.setOnMouseClicked(event -> {
-            texto.setText("Ha seleccionado al vendedor 2");
-            vendedorSeleccionado = "Vendedor 2"; // Aquí actualizamos la variable con el vendedor seleccionado
+            texto.setText("Bienvenido Edgar, dale click en Aceptar");
+            vendedorSeleccionado = "Edgar"; // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
         aceptar.setOnAction(event -> {

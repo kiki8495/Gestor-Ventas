@@ -17,6 +17,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class VistaVendedor {
 
@@ -31,18 +33,18 @@ public class VistaVendedor {
         this.crearVentana();
     }
 
-   
-
     public static class Producto {
 
         private final int id;
         private final String nombre;
+        private final String descripcion;
         private final int cantidad;
         private final double precio;
 
-        public Producto(int id, String nombre, int cantidad, double precio) {
+        public Producto(int id, String nombre, String descripcion, int cantidad, int precio) {
             this.id = id;
             this.nombre = nombre;
+            this.descripcion = descripcion;
             this.cantidad = cantidad;
             this.precio = precio;
         }
@@ -53,6 +55,10 @@ public class VistaVendedor {
 
         public String getNombre() {
             return nombre;
+        }
+
+        public String getDescripcion() {
+            return descripcion;
         }
 
         public int getCantidad() {
@@ -79,14 +85,15 @@ public class VistaVendedor {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         Text fechaHora = new Text("Buenos días, la fecha es " + dtf.format(now));
+        fechaHora.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
         Text catalogoProductosText = new Text("El catálogo de Productos disponible es el siguiente:");
-
+        catalogoProductosText.setFont(Font.font("Verdana", 16));
         TableView<Producto> tabla = new TableView<>();
         ObservableList<Producto> data = FXCollections.observableArrayList(
-                new Producto(1, "Producto 1", 10, 50000),
-                new Producto(2, "Producto 2", 20, 60000),
-                new Producto(3, "Producto 3", 30, 40000)
+                new Producto(1, "Producto 1", "detalle", 10, 50000),
+                new Producto(2, "Producto 2", "detalle", 20, 60000),
+                new Producto(3, "Producto 3", "detalle", 30, 40000)
         );
         tabla.setItems(data);
 
@@ -96,21 +103,25 @@ public class VistaVendedor {
 
         TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreColumn.setPrefWidth(200); // Establecer el ancho preferido de la columna
+        nombreColumn.setPrefWidth(180); // Establecer el ancho preferido de la columna
+
+        TableColumn<Producto, String> descripcionColumn = new TableColumn<>("Descripcion");
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        descripcionColumn.setPrefWidth(180); // Establecer el ancho preferido de la columna
 
         TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad Disponible");
         cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        cantidadColumn.setPrefWidth(150); // Establecer el ancho preferido de la columna
+        cantidadColumn.setPrefWidth(100); // Establecer el ancho preferido de la columna
 
-        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio Unitario");
+        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio Unit");
         precioColumn.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        precioColumn.setPrefWidth(150); // Establecer el ancho preferido de la columna
+        precioColumn.setPrefWidth(100); // Establecer el ancho preferido de la columna
 
-        tabla.getColumns().addAll(idColumn, nombreColumn, cantidadColumn, precioColumn);
+        tabla.getColumns().addAll(idColumn, nombreColumn, descripcionColumn, cantidadColumn, precioColumn);
 
         VBox contenedorPrincipal = new VBox(10, fechaHora, catalogoProductosText, tabla);
         contenedorPrincipal.setPadding(new Insets(10));
-        contenedorPrincipal.setStyle("-fx-border-color: #ffa500; -fx-border-width: 2px;");
+        contenedorPrincipal.setStyle("-fx-border-color: #ffa500; -fx-border-width: 4px;");
         contenedorPrincipal.setAlignment(Pos.TOP_LEFT);
 
         // Crear los botones del menú lateral

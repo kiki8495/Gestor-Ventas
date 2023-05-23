@@ -5,13 +5,11 @@ import javafx.stage.Stage;
 
 public class Controlador {
 
-    private final Stage primaryStage;
     private final SeleccionVendedor seleccionVendedor;
     private VistaVendedor vistaVendedor;
     private String vendedorSeleccionado;
 
     public Controlador(Stage primaryStage) {
-        this.primaryStage = primaryStage;
         seleccionVendedor = new SeleccionVendedor(this);
     }
 
@@ -36,6 +34,11 @@ public class Controlador {
     public void abrirVentanaAñadirProducto() {
         ViewAñadirProducto vistaAñadirProducto = new ViewAñadirProducto();
         vistaAñadirProducto.mostrar();
+    }
+
+    public void abrirVentanaCarrito() {
+        ViewCarrito vistaCarrito = new ViewCarrito();
+        vistaCarrito.mostrar();
     }
 
     public void abrirVentanaVender() {
