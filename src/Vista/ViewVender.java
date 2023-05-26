@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.Controlador;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,8 +24,10 @@ public class ViewVender {
     private TextField id_seleccionado;
     private TextField unidades_vendidas;
     private final Stage stage;
-
-    public ViewVender() {
+    private Controlador Controlador;
+    
+    public ViewVender(Controlador controlador) {
+       this.Controlador = controlador;
         this.stage = new Stage();
         crearVentana();
     }
@@ -102,7 +105,7 @@ public class ViewVender {
 
                 } else {
                     // Acá va la logica
-
+                    Controlador.abrirVentanaCarrito();
                     //Producto(1, nombre_producto, descripcion_producto,unidades, precio);
                     stage.hide(); // Cerrar la ventana actual
                 }

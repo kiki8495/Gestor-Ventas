@@ -42,7 +42,7 @@ public class Controlador {
     }
 
     public void abrirVentanaVender() {
-        ViewVender vistaVender = new ViewVender();
+        ViewVender vistaVender = new ViewVender(this);
         vistaVender.mostrar();
     }
 
