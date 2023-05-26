@@ -19,6 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import Modelo.ProductoDTO;
+import Modelo.ProductoDAO;
+import java.util.List;
 
 public class VistaVendedor {
 
@@ -89,35 +92,38 @@ public class VistaVendedor {
 
         Text catalogoProductosText = new Text("El catálogo de Productos disponible es el siguiente:");
         catalogoProductosText.setFont(Font.font("Verdana", 16));
-        TableView<Producto> tabla = new TableView<>();
-        ObservableList<Producto> data = FXCollections.observableArrayList(
-                new Producto(1, "Producto 1", "detalle", 10, 50000),
-                new Producto(2, "Producto 2", "detalle", 20, 60000),
-                new Producto(3, "Producto 3", "detalle", 30, 40000)
-        );
+
+        TableView<ProductoDTO> tabla = new TableView<>();
+        ObservableList<ProductoDTO> data = FXCollections.observableArrayList();
+
+        ProductoDAO productoDAO = new ProductoDAO();
+        List<ProductoDTO> productos = productoDAO.obtenerProductos();
+        data.addAll(productos);
         tabla.setItems(data);
 
-        TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
+        TableColumn<ProductoDTO, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idColumn.setPrefWidth(50); // Establecer el ancho preferido de la columna
+        idColumn.setPrefWidth(50);
 
-        TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+        TableColumn<ProductoDTO, String> nombreColumn = new TableColumn<>("Nombre");
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        nombreColumn.setPrefWidth(180); // Establecer el ancho preferido de la columna
+        nombreColumn.setPrefWidth(180);
 
-        TableColumn<Producto, String> descripcionColumn = new TableColumn<>("Descripcion");
+        TableColumn<ProductoDTO, String> descripcionColumn = new TableColumn<>("Descripcion");
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        descripcionColumn.setPrefWidth(180); // Establecer el ancho preferido de la columna
+        descripcionColumn.setPrefWidth(180);
 
-        TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad Disponible");
+        TableColumn<ProductoDTO, Integer> cantidadColumn = new TableColumn<>("Cantidad Disponible");
         cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        cantidadColumn.setPrefWidth(100); // Establecer el ancho preferido de la columna
+        cantidadColumn.setPrefWidth(100);
 
-        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio Unit");
+        TableColumn<ProductoDTO, Integer> precioColumn = new TableColumn<>("Precio Unit");
         precioColumn.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        precioColumn.setPrefWidth(100); // Establecer el ancho preferido de la columna
+        precioColumn.setPrefWidth(100);
 
         tabla.getColumns().addAll(idColumn, nombreColumn, descripcionColumn, cantidadColumn, precioColumn);
+
+        tabla.setItems(data);
 
         VBox contenedorPrincipal = new VBox(10, fechaHora, catalogoProductosText, tabla);
         contenedorPrincipal.setPadding(new Insets(10));
