@@ -1,6 +1,8 @@
 package Vista;
 
 import Controlador.Controlador;
+import Modelo.VendedorDTO;
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,11 +23,27 @@ public class SeleccionVendedor {
     private final Controlador controlador;
     private String vendedorSeleccionado = null; // Variable para llevar registro del vendedor seleccionado
 
-    public SeleccionVendedor(Controlador controlador) {
+        // Crear los textos para los vendedores como campos de clase
+    private final Text nombreVendedor1;
+    private final Text nombreVendedor2;
+    
+ public SeleccionVendedor(Controlador controlador) {
         this.controlador = controlador;
         this.stage = new Stage();
+
+        // Inicializar los textos para los vendedores en el constructor
+        nombreVendedor1 = new Text();
+        nombreVendedor1.setFill(Color.WHITE);
+        nombreVendedor1.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+
+        nombreVendedor2 = new Text();
+        nombreVendedor2.setFill(Color.WHITE);
+        nombreVendedor2.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+
         this.crearVentana();
     }
+
+    
 
     private void crearVentana() {
         //Crear el titulo
@@ -43,15 +61,6 @@ public class SeleccionVendedor {
         ImageView imagenVendedor1 = new ImageView(image1);
         Image image2 = new Image("file:///D:/Universidad/Cuarto%20Semestre%202023-1/Segundo%20Bloque/Programacion%20Avanzada/Segundo%20Corte/Gestor-Ventas/src/Vista/IMG/Vendedor%202.png", 100, 100, false, false);
         ImageView imagenVendedor2 = new ImageView(image2);
-
-        // Crear los textos para los vendedores
-        Text nombreVendedor1 = new Text("Cristhian");
-        nombreVendedor1.setFill(Color.WHITE);
-        nombreVendedor1.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
-
-        Text nombreVendedor2 = new Text("Edgar");
-        nombreVendedor2.setFill(Color.WHITE);
-        nombreVendedor2.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
         // Crear los contenedores para los vendedores
         VBox vendedor1 = new VBox(10, imagenVendedor1, nombreVendedor1);
@@ -78,13 +87,13 @@ public class SeleccionVendedor {
 
 // Eventos de click en las imágenes y textos
         vendedor1.setOnMouseClicked(event -> {
-            texto.setText("Bienvenido Cristhian, dale click en Aceptar");
-            vendedorSeleccionado = "Cristhian"; // Aquí actualizamos la variable con el vendedor seleccionado
+            texto.setText("Bienvenido " + nombreVendedor1.getText() + ", dale click en Aceptar");
+            vendedorSeleccionado = nombreVendedor1.getText(); // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
         vendedor2.setOnMouseClicked(event -> {
-            texto.setText("Bienvenido Edgar, dale click en Aceptar");
-            vendedorSeleccionado = "Edgar"; // Aquí actualizamos la variable con el vendedor seleccionado
+            texto.setText("Bienvenido "+ nombreVendedor2.getText() + ", dale click en Aceptar");
+            vendedorSeleccionado = nombreVendedor2.getText(); // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
         aceptar.setOnAction(event -> {
@@ -108,7 +117,31 @@ public class SeleccionVendedor {
         return vendedorSeleccionado;
     }
 
+        public void setVendedores(List<VendedorDTO> vendedores) {
+        if (vendedores.size() > 0) {
+            VendedorDTO vendedor1 = vendedores.get(0);
+            setNombreVendedor1(vendedor1.getNombre() + "\n " + vendedor1.getApellido());
+
+        }
+
+        if (vendedores.size() > 1) {
+            VendedorDTO vendedor2 = vendedores.get(1);
+            setNombreVendedor2(vendedor2.getNombre() + "\n " + vendedor2.getApellido());
+        }
+    }
+
+    private void setNombreVendedor1(String nombre) {
+        // Aquí va el código para cambiar el nombre del primer vendedor en la vista
+        nombreVendedor1.setText(nombre);
+    }
+
+    private void setNombreVendedor2(String nombre) {
+        // Aquí va el código para cambiar el nombre del segundo vendedor en la vista
+        nombreVendedor2.setText(nombre);
+    }
+    
     public void mostrar() {
         stage.show();
     }
+    
 }

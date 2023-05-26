@@ -24,7 +24,7 @@ public class createDB {
             System.out.println("Conexión exitosa a la base de datos!");
 
             // Crear una sentencia SQL SELECT
-            String consulta = "SELECT idcliente, nombre FROM cliente";
+            String consulta = "SELECT nombre FROM vendedor";
 
             // Crear un objeto Statement
             Statement statement = conexion.createStatement();
@@ -34,12 +34,10 @@ public class createDB {
 
             // Recorrer los resultados
             while (resultados.next()) {
-                // Obtener los valores de las columnas
-                int idCliente = resultados.getInt("idcliente");
+                // Obtener los valores de las columna
                 String nombre = resultados.getString("nombre");
 
                 // Hacer algo con los valores obtenidos
-                System.out.println("ID Cliente: " + idCliente);
                 System.out.println("Nombre: " + nombre);
             }
 

@@ -1,6 +1,9 @@
 package Controlador;
 
+import Modelo.VendedorDAO;
+import Modelo.VendedorDTO;
 import Vista.*;
+import java.util.List;
 import javafx.stage.Stage;
 
 public class Controlador {
@@ -8,9 +11,11 @@ public class Controlador {
     private final SeleccionVendedor seleccionVendedor;
     private VistaVendedor vistaVendedor;
     private String vendedorSeleccionado;
+    private VendedorDAO vendedorDAO;
 
     public Controlador(Stage primaryStage) {
         seleccionVendedor = new SeleccionVendedor(this);
+        vendedorDAO = new VendedorDAO();
     }
 
     public String getVendedorSeleccionado() {
@@ -22,6 +27,8 @@ public class Controlador {
     }
 
     public void iniciarAplicacion() {
+         List<VendedorDTO> vendedores = vendedorDAO.obtenerVendedores();
+        seleccionVendedor.setVendedores(vendedores);
         seleccionVendedor.mostrar();
     }
 
