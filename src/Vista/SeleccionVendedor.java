@@ -23,11 +23,13 @@ public class SeleccionVendedor {
     private final Controlador controlador;
     private String vendedorSeleccionado = null; // Variable para llevar registro del vendedor seleccionado
 
-        // Crear los textos para los vendedores como campos de clase
+    // Crear los textos para los vendedores como campos de clase
     private final Text nombreVendedor1;
     private final Text nombreVendedor2;
-    
- public SeleccionVendedor(Controlador controlador) {
+    private final Text ventasVendedor1; // Nuevo campo para mostrar las ventas
+    private final Text ventasVendedor2; // Nuevo campo para mostrar las ventas
+
+    public SeleccionVendedor(Controlador controlador) {
         this.controlador = controlador;
         this.stage = new Stage();
 
@@ -40,10 +42,16 @@ public class SeleccionVendedor {
         nombreVendedor2.setFill(Color.WHITE);
         nombreVendedor2.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
+        ventasVendedor1 = new Text(); // Inicializar el campo de ventas para el vendedor 1
+        ventasVendedor1.setFill(Color.WHITE);
+        ventasVendedor1.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+
+        ventasVendedor2 = new Text(); // Inicializar el campo de ventas para el vendedor 2
+        ventasVendedor2.setFill(Color.WHITE);
+        ventasVendedor2.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+
         this.crearVentana();
     }
-
-    
 
     private void crearVentana() {
         //Crear el titulo
@@ -63,8 +71,8 @@ public class SeleccionVendedor {
         ImageView imagenVendedor2 = new ImageView(image2);
 
         // Crear los contenedores para los vendedores
-        VBox vendedor1 = new VBox(10, imagenVendedor1, nombreVendedor1);
-        VBox vendedor2 = new VBox(10, imagenVendedor2, nombreVendedor2);
+        VBox vendedor1 = new VBox(10, imagenVendedor1, nombreVendedor1, ventasVendedor1);
+        VBox vendedor2 = new VBox(10, imagenVendedor2, nombreVendedor2, ventasVendedor2);
         vendedor1.setAlignment(Pos.CENTER);
         vendedor2.setAlignment(Pos.CENTER);
 
@@ -76,23 +84,23 @@ public class SeleccionVendedor {
         HBox contenedorVendedores = new HBox(10, vendedor1, vendedor2);
         contenedorVendedores.setAlignment(Pos.CENTER);
 
-// Crear el contenedor principal y añadir los componentes
+        // Crear el contenedor principal y añadir los componentes
         VBox contenedorPrincipal = new VBox(10, texto, contenedorVendedores, aceptar);
         contenedorPrincipal.setAlignment(Pos.CENTER);
         contenedorPrincipal.setBackground(new Background(new BackgroundFill(Color.web("#FFA500"), CornerRadii.EMPTY, null)));
 
-// Crear un StackPane para centrar el contenedorPrincipal
+        // Crear un StackPane para centrar el contenedorPrincipal
         StackPane root = new StackPane(contenedorPrincipal);
         root.setAlignment(Pos.CENTER);
 
-// Eventos de click en las imágenes y textos
+        // Eventos de click en las imágenes y textos
         vendedor1.setOnMouseClicked(event -> {
             texto.setText("Bienvenido " + nombreVendedor1.getText() + ", dale click en Aceptar");
             vendedorSeleccionado = nombreVendedor1.getText(); // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
         vendedor2.setOnMouseClicked(event -> {
-            texto.setText("Bienvenido "+ nombreVendedor2.getText() + ", dale click en Aceptar");
+            texto.setText("Bienvenido " + nombreVendedor2.getText() + ", dale click en Aceptar");
             vendedorSeleccionado = nombreVendedor2.getText(); // Aquí actualizamos la variable con el vendedor seleccionado
         });
 
@@ -117,31 +125,38 @@ public class SeleccionVendedor {
         return vendedorSeleccionado;
     }
 
-        public void setVendedores(List<VendedorDTO> vendedores) {
+    public void setVendedores(List<VendedorDTO> vendedores) {
         if (vendedores.size() > 0) {
             VendedorDTO vendedor1 = vendedores.get(0);
-            setNombreVendedor1(vendedor1.getNombre() + "\n " + vendedor1.getApellido());
-
+            setNombreVendedor1(vendedor1.getNombre() + " " + vendedor1.getApellido());
+            setVentasVendedor1(Integer.toString(vendedor1.getVentas())); // Mostrar las ventas del vendedor
         }
 
         if (vendedores.size() > 1) {
             VendedorDTO vendedor2 = vendedores.get(1);
-            setNombreVendedor2(vendedor2.getNombre() + "\n " + vendedor2.getApellido());
+            setNombreVendedor2(vendedor2.getNombre() + " " + vendedor2.getApellido());
+            setVentasVendedor2(Integer.toString(vendedor2.getVentas())); // Mostrar las ventas del vendedor
         }
     }
 
     private void setNombreVendedor1(String nombre) {
-        // Aquí va el código para cambiar el nombre del primer vendedor en la vista
         nombreVendedor1.setText(nombre);
     }
 
     private void setNombreVendedor2(String nombre) {
-        // Aquí va el código para cambiar el nombre del segundo vendedor en la vista
         nombreVendedor2.setText(nombre);
     }
-    
+
+    private void setVentasVendedor1(String ventas) {
+        ventasVendedor1.setText("Ventas: " + ventas);
+    }
+
+    private void setVentasVendedor2(String ventas) {
+        ventasVendedor2.setText("Ventas: " + ventas);
+    }
+
     public void mostrar() {
         stage.show();
     }
-    
 }
+

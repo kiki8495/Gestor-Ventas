@@ -59,7 +59,8 @@ public class Controlador {
     }
 
     public void abrirVentanaVendidoMas() {
-        ViewVendidoMas vistaVendidoMas = new ViewVendidoMas();
+        List<VendedorDTO> vendedores = vendedorDAO.obtenerVendedores();
+        ViewVendidoMas vistaVendidoMas = new ViewVendidoMas(vendedores);
         vistaVendidoMas.mostrar();
     }
 }
