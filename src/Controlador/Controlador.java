@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.ProductoDAO;
 import Modelo.VendedorDAO;
 import Modelo.VendedorDTO;
 import Vista.*;
@@ -12,11 +13,18 @@ public class Controlador {
     private VistaVendedor vistaVendedor;
     private String vendedorSeleccionado;
     private VendedorDAO vendedorDAO;
+    private final ProductoDAO productoDAO;
 
     public Controlador(Stage primaryStage) {
-        seleccionVendedor = new SeleccionVendedor(this);
+        seleccionVendedor = new SeleccionVendedor(this); // Pasar "this" como argumento
         vendedorDAO = new VendedorDAO();
+        productoDAO = new ProductoDAO(); // Agregar esta línea para inicializar productoDAO
     }
+    
+    public ProductoDAO getProductoDAO() {
+    return productoDAO;
+}
+
 
     public String getVendedorSeleccionado() {
         return this.vendedorSeleccionado;
@@ -27,7 +35,7 @@ public class Controlador {
     }
 
     public void iniciarAplicacion() {
-         List<VendedorDTO> vendedores = vendedorDAO.obtenerVendedores();
+        List<VendedorDTO> vendedores = vendedorDAO.obtenerVendedores();
         seleccionVendedor.setVendedores(vendedores);
         seleccionVendedor.mostrar();
     }
