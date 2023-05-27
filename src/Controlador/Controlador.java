@@ -62,5 +62,4 @@ public class Controlador {
         ViewVendidoMas vistaVendidoMas = new ViewVendidoMas();
         vistaVendidoMas.mostrar();
     }
-
 }

@@ -28,12 +28,15 @@ public class VistaVendedor {
     private final Stage stage;
     private final Controlador controlador;
     private final String nombreVendedor;
+    private final ObservableList<ProductoDTO> data;
 
     public VistaVendedor(Controlador controlador, String nombreVendedor) {
         this.controlador = controlador;
         this.nombreVendedor = nombreVendedor;
         this.stage = new Stage();
+        this.data = FXCollections.observableArrayList();
         this.crearVentana();
+        actualizarCatalogo(); // Agregar esta línea para cargar los datos al abrir la ventana
     }
 
     public static class Producto {
@@ -94,11 +97,6 @@ public class VistaVendedor {
         catalogoProductosText.setFont(Font.font("Verdana", 16));
 
         TableView<ProductoDTO> tabla = new TableView<>();
-        ObservableList<ProductoDTO> data = FXCollections.observableArrayList();
-
-        ProductoDAO productoDAO = new ProductoDAO();
-        List<ProductoDTO> productos = productoDAO.obtenerProductos();
-        data.addAll(productos);
         tabla.setItems(data);
 
         TableColumn<ProductoDTO, Integer> idColumn = new TableColumn<>("ID");
@@ -123,8 +121,6 @@ public class VistaVendedor {
 
         tabla.getColumns().addAll(idColumn, nombreColumn, descripcionColumn, cantidadColumn, precioColumn);
 
-        tabla.setItems(data);
-
         VBox contenedorPrincipal = new VBox(10, fechaHora, catalogoProductosText, tabla);
         contenedorPrincipal.setPadding(new Insets(10));
         contenedorPrincipal.setStyle("-fx-border-color: #ffa500; -fx-border-width: 4px;");
@@ -137,10 +133,15 @@ public class VistaVendedor {
         boton2.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         Button boton3 = new Button("Recibos");
         boton3.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+
+        Button botonActualizar = new Button("Actualizar");
+        botonActualizar.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
+        botonActualizar.setOnAction(event -> actualizarCatalogo());
+
         Button boton4 = new Button("Quien ha vendido más");
         boton4.setStyle("-fx-background-color: #ffa500; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
 
-        VBox menuLateral = new VBox(10, nombreEmpresa, nombreVendedor, boton1, boton2, boton3, boton4);
+        VBox menuLateral = new VBox(10, nombreEmpresa, nombreVendedor, boton1, boton2, boton3, botonActualizar, boton4);
         menuLateral.setPadding(new Insets(20));
         menuLateral.setStyle("-fx-background-color: #ffa500");
         menuLateral.setAlignment(Pos.TOP_LEFT);
@@ -157,6 +158,13 @@ public class VistaVendedor {
 
         Scene escena = new Scene(contenedorTotal, 800, 600);
         stage.setScene(escena);
+    }
+
+    private void actualizarCatalogo() {
+        ProductoDAO productoDAO = new ProductoDAO();
+        List<ProductoDTO> productos = productoDAO.obtenerProductos();
+        data.clear(); // Limpiar los datos existentes en la lista observable
+        data.addAll(productos); // Agregar los nuevos productos a la lista observable
     }
 
     public void mostrar() {
