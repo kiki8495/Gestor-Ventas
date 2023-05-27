@@ -1,5 +1,7 @@
 package Vista;
 
+import Controlador.Controlador;
+import Modelo.ProductoDTO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,13 +25,11 @@ public class ViewAñadirProducto {
     private TextField priceField;
     private TextField unitsAvailableField;
     private final Stage stage;
+    private final Controlador controlador;
 
-    /**
-     *
-     */
-    public ViewAñadirProducto() {
-
+    public ViewAñadirProducto(Controlador controlador) {
         this.stage = new Stage();
+        this.controlador = controlador;
         crearVentana();
     }
 
@@ -69,8 +69,8 @@ public class ViewAñadirProducto {
         gridPane.add(unitsAvailableField, 1, 3);
 
         // Botón para registrar el producto
+        // Botón para registrar el producto
         Button registerButton = new Button("Registrar Producto");
-        //registerButton.setOnAction(e -> registerProduct());
 
         registerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -84,7 +84,8 @@ public class ViewAñadirProducto {
                     if (nombre_producto.isEmpty()
                             || descripcion_producto.isEmpty()
                             || precio <= 0
-                            & unidades <= 0) {
+                            || unidades <= 0) {
+
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");
                         alert.setHeaderText(null);
@@ -92,18 +93,26 @@ public class ViewAñadirProducto {
                         alert.showAndWait();
 
                     } else {
-                        // Acá va la logica
+                        // Obtener el último ID de la base de datos
+                        int ultimoID = controlador.getProductoDAO().obtenerUltimoID();
 
-                        //Producto(1, nombre_producto, descripcion_producto,unidades, precio);
+                        // Calcular el nuevo ID sumando 1 al último ID
+                        int nuevoID = ultimoID + 1;
+
+                        // Crear un nuevo objeto ProductoDTO con el nuevo ID y los demás datos ingresados
+                        ProductoDTO nuevoProducto = new ProductoDTO(nuevoID, nombre_producto, descripcion_producto, unidades, (int) precio);
+
+                        // Guardar el nuevo producto en la base de datos
+                        controlador.getProductoDAO().agregarProducto(nuevoProducto);
+
                         stage.hide(); // Cerrar la ventana actual
                     }
                 } catch (NumberFormatException ie) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                    alert.setContentText("Datos Invalidos");
+                    alert.setContentText("Datos Inválidos");
                     alert.showAndWait();
-
                 }
             }
         });

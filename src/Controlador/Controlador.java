@@ -20,11 +20,10 @@ public class Controlador {
         vendedorDAO = new VendedorDAO();
         productoDAO = new ProductoDAO(); // Agregar esta línea para inicializar productoDAO
     }
-    
-    public ProductoDAO getProductoDAO() {
-    return productoDAO;
-}
 
+    public ProductoDAO getProductoDAO() {
+        return productoDAO;
+    }
 
     public String getVendedorSeleccionado() {
         return this.vendedorSeleccionado;
@@ -47,7 +46,7 @@ public class Controlador {
     }
 
     public void abrirVentanaAñadirProducto() {
-        ViewAñadirProducto vistaAñadirProducto = new ViewAñadirProducto();
+        ViewAñadirProducto vistaAñadirProducto = new ViewAñadirProducto(this);
         vistaAñadirProducto.mostrar();
     }
 

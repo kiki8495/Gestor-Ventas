@@ -1,5 +1,6 @@
 package Modelo;
 
+import com.mysql.cj.xdevapi.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,5 +38,40 @@ public class ProductoDAO {
 
         return productos;
     }
+    public int obtenerUltimoID() {
+    int ultimoID = 0;
+
+    try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+         java.sql.Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT MAX(idProducto) AS ultimoID FROM producto")) {
+
+        if (rs.next()) {
+            ultimoID = rs.getInt("ultimoID");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Manejo de excepciones
+    }
+
+    return ultimoID;
+}
+
+public void agregarProducto(ProductoDTO producto) {
+    try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+         PreparedStatement stmt = conn.prepareStatement("INSERT INTO producto (idProducto, nombre, descripcion, cantidad_actual, precio) VALUES (?, ?, ?, ?, ?)")) {
+
+        stmt.setInt(1, producto.getId());
+        stmt.setString(2, producto.getNombre());
+        stmt.setString(3, producto.getDescripcion());
+        stmt.setInt(4, producto.getCantidad());
+        stmt.setDouble(5, producto.getPrecio());
+
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Manejo de excepciones
+    }
+}
+
 }
 
