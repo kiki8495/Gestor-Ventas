@@ -4,8 +4,6 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import Modelo.VentaDTO;
-
 
 public class VentaDAO {
 
@@ -16,9 +14,7 @@ public class VentaDAO {
     public List<VentaDTO> obtenerVentas() {
         List<VentaDTO> ventas = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM venta");
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA); PreparedStatement stmt = conn.prepareStatement("SELECT * FROM venta"); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 int idVenta = rs.getInt("idVenta");
@@ -42,8 +38,7 @@ public class VentaDAO {
     }
 
     public void agregarVenta(VentaDTO venta) {
-        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO venta (idVenta, vendedor_id, cliente_id, producto_id, forma_pago, fecha, cantidad, precioTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA); PreparedStatement stmt = conn.prepareStatement("INSERT INTO venta (idVenta, vendedor_id, cliente_id, producto_id, forma_pago, fecha, cantidad, precioTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             stmt.setInt(1, venta.getIdVenta());
             stmt.setInt(2, venta.getVendedorId());
@@ -53,6 +48,41 @@ public class VentaDAO {
             stmt.setTimestamp(6, Timestamp.valueOf(venta.getFecha()));
             stmt.setInt(7, venta.getCantidad());
             stmt.setDouble(8, venta.getPrecioTotal());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de excepciones
+        }
+    }
+
+    public int obtenerUltimoIdVenta() {
+        int ultimoIdVenta = 0;
+
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT MAX(idVenta) FROM venta")) {
+
+            if (rs.next()) {
+                ultimoIdVenta = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de excepciones
+        }
+
+        return ultimoIdVenta;
+    }
+
+    public void insertarVenta(VentaDTO venta) {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA); PreparedStatement stmt = conn.prepareStatement("INSERT INTO venta (idVenta, vendedor_id, cliente_id, producto_id, forma_pago, fecha, cantidad, precioTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+
+            stmt.setInt(1, venta.getIdVenta());
+            stmt.setInt(2, venta.getVendedorId());
+            stmt.setInt(3, venta.getClienteId());
+            stmt.setInt(4, venta.getProductoId());
+            stmt.setInt(5, venta.getFormaPago());
+            stmt.setTimestamp(6, Timestamp.valueOf(venta.getFecha()));
+            stmt.setInt(7, venta.getCantidad());
+            stmt.setInt(8, venta.getPrecioTotal());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

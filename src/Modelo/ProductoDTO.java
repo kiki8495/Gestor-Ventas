@@ -1,15 +1,14 @@
 package Modelo;
 
 public class ProductoDTO {
+
     private int id;
     private String nombre;
     private String descripcion;
-    private int cantidad;
+    private Integer cantidad;
     private int precio;
 
-    
     // Constructor, getters y setters
-
     public ProductoDTO(int id, String nombre, String descripcion, int cantidad, int precio) {
         this.id = id;
         this.nombre = nombre;
@@ -56,5 +55,9 @@ public class ProductoDTO {
 
     public void setPrecio(int precio) {
         this.precio = precio;
-    }  
+    }
+
+    public void setUnidades(int unidades) {
+        this.cantidad = unidades;
+    }
 }
