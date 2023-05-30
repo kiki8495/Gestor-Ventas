@@ -19,19 +19,23 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import Modelo.ProductoDAO;
 import Modelo.ProductoDTO;
+import Modelo.VentaDAO;
 import java.util.List;
+import Modelo.VentaDTO;
 
 public class ViewVender {
 
     private TextField id_seleccionado;
     private TextField unidades_vendidas;
     private final Stage stage;
-    private Controlador Controlador;
-    private ProductoDAO productoDAO;
+    private final Controlador Controlador;
+    private final ProductoDAO productoDAO;
+    private final VentaDAO ventaDAO;
 
     public ViewVender(Controlador controlador) {
         this.Controlador = controlador;
         this.productoDAO = controlador.getProductoDAO(); // Obtener la instancia de ProductoDAO desde el controlador
+        this.ventaDAO = controlador.getVentaDAO(); // Obtener la instancia de VentaDAO desde el controlador
         this.stage = new Stage();
         crearVentana();
     }
@@ -105,12 +109,19 @@ public class ViewVender {
                     alert.setHeaderText(null);
                     alert.setContentText("No has completado todos los campos");
                     alert.showAndWait();
-
                 } else {
-                    // Acá va la logica
-                    Controlador.abrirVentanaCarrito();
-                    //Producto(1, nombre_producto, descripcion_producto,unidades, precio);
-                    stage.hide(); // Cerrar la ventana actual
+                    int idProducto = Integer.parseInt(id_producto);
+                    ProductoDTO productoSeleccionado = productoDAO.obtenerProductoPorId(idProducto);
+                    if (productoSeleccionado == null) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("El producto seleccionado no existe");
+                        alert.showAndWait();
+                    } else {
+                        Controlador.agregarProductoAlCarrito(productoSeleccionado);
+                        stage.hide(); // Cerrar la ventana actual
+                    }
                 }
             } catch (NumberFormatException ie) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -118,9 +129,7 @@ public class ViewVender {
                 alert.setHeaderText(null);
                 alert.setContentText("Datos Invalidos");
                 alert.showAndWait();
-
             }
-
         });
 
         gridPane.add(AgregarProducto, 2, 1);
@@ -134,6 +143,36 @@ public class ViewVender {
         Scene escena = new Scene(contenedor, 600, 300);
         stage.setScene(escena);
 
+        Button RealizarVenta = new Button("Realizar la venta");
+        RealizarVenta.setOnAction(e -> {
+            try {
+                String id_producto = id_seleccionado.getText();
+                int unidades = Integer.parseInt(unidades_vendidas.getText());
+                if (id_producto.isEmpty() || unidades <= 0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No has completado todos los campos");
+                    alert.showAndWait();
+
+                } else {
+                    // Aquí va la lógica para guardar la venta en la base de datos
+                    // Por ahora, he establecido los valores a 0 o null, pero debes reemplazarlos con los valores adecuados
+                    VentaDTO venta = new VentaDTO(0, 0, 0, Integer.parseInt(id_producto), 0, null, unidades, 0);
+                    ventaDAO.agregarVenta(venta);
+
+                    stage.hide(); // Cerrar la ventana actual
+                }
+            } catch (NumberFormatException ie) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Datos Invalidos");
+                alert.showAndWait();
+            }
+        });
+
+        gridPane.add(RealizarVenta, 2, 2);
     }
 
     public void mostrar() {
